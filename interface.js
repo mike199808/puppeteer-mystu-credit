@@ -36,8 +36,10 @@ let isLogin = 0;
     });
     // 中间件，用于获取同班同学信息
     app.post('/classmates', function (req, res) {
+        let classNum = req.query.classNum;
+        // console.log(req.query.classNum);
         if (isLogin === 1) {
-            classmate(browser).then(result => {
+            classmate(browser, classNum).then(result => {
                 console.log(result);
                 res.send(result);
                 res.end();
@@ -60,4 +62,3 @@ let isLogin = 0;
         console.log('应用实例，访问地址为 http://%s:%s', host, port);
     });
 })();
-
