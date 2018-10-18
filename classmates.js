@@ -1,9 +1,10 @@
-// const puppeteer = require('puppeteer');
-
-async function classmate(browser) {
+async function classmate(browser, classNum) {
+    let url1 = 'http://credit.stu.edu.cn/Info/DisplayKkb.aspx?ClassID=';
+    let url2 = '&auth=2BF58254C65E22E0DD500282542528EF';
+    let url = url1 + classNum + url2;
     // const browser = await puppeteer.launch({ headless: false });// 打开浏览器
     const page = await browser.newPage();// 打开一个空白页
-    await page.goto('http://credit.stu.edu.cn/Info/DisplayKkb.aspx?ClassID=103846&auth=2BF58254C65E22E0DD500282542528EF');
+    await page.goto(url);
     let content = await page.evaluate(() => {
         let temp = [...document.querySelectorAll('.gridview_row> td')].concat([...document.querySelectorAll('.gridview_alter> td')]);
         let stuNum = [];
