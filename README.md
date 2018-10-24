@@ -1,15 +1,68 @@
-# puppeteer-mystu-credit
-功能：
-①可以爬学分制以及mystu并进行登录
-容错：
-①当网络中断时会显示网络连接失败，不会炸了
+[English](#en)|[中文](#cn)
 
-更新：20181001
-学习了使用node的promise，并把两份代码函数函数化了。
-新添功能：①当网络不好的时候，连接太久会报连接超时。
 
-更新：20181007
-将express框架引入了代码中。
 
-更新：20181018
-加入了爬取同班同学的代码
+<h2 id='en'>Puppeteer crawler project</h2>
+
+**Description**
+
+Puppeteer crawls shanshan university mystu, credit system information, and USES express built API
+
+**Function**
+
+- mystu.js
+
+  Crawl the mystu login page and verify that the account password is correct
+
+- credit.js
+
+  Crawl the credit system login page and verify that the account password is correct
+
+- course.js
+
+  Crawl the credit system to view the curriculum page and capture personal course information
+
+- classroom.js
+
+  Crawl the credits course details page and grab the classmates
+
+**Usage**
+
+`$ npm install`
+
+`$ node interface.js`
+
+
+
+<h2 id='cn'>puppeteer爬虫项目</h2>
+
+**描述**
+
+puppeteer爬虫爬取汕大mystu、学分制信息，并使用express搭建成api
+
+**功能**
+
+- mystu.js
+
+  爬取mystu登录页面，验证账号密码是否正确
+
+- credit.js
+
+  爬取学分制登录页面，验证账号密码是否正确
+
+- course.js
+
+  爬取学分制查看课表页面，抓取个人课程信息
+
+- classmate.js
+
+  爬取学分制课程详情页面，抓取同班同学
+
+**使用**
+
+`$ npm install`
+
+`$ node interface.js`
+
+
+

@@ -1,20 +1,19 @@
 {
-  "name": "puppeteer",
+  "name": "STU-Mike",
   "version": "1.0.0",
-  "description": "puppeteer",
-  "main": ".eslintrc.js",
-  "dependencies": {
-    "express": "^4.16.3",
-    "puppeteer": "^1.7.0"
-  },
-  "private": true,
-  "devDependencies": {
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
-  },
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "morgan": "^1.9.1",
+    "puppeteer": "^1.7.0",
+    "request": "^2.88.0"
+  }
 }
