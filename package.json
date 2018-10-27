@@ -1,5 +1,5 @@
 {
-  "name": "STU-Mike",
+  "name": "puppeteerDemo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,6 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "morgan": "^1.9.1",
-    "puppeteer": "^1.7.0",
-    "request": "^2.88.0"
+    "puppeteer": "^1.7.0"
   }
 }
