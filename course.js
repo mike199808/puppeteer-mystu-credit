@@ -11,23 +11,18 @@ function getCourses(username, password, yearValue, semesterIndex) {
      * 参数:
      * username: 用户名
      * password: 密码
-     * yearValue: 学年  例：2017-2018学年
-     * semesterIndex: 0、春季学期; 1、夏季学期; 2、秋季学期
+     * yearValue: 学年  例：2017-2018
+     * semesterIndex: 1、春季学期; 2、夏季学期; 3、秋季学期
      * 返回值: 一个promise对象
      */
-    const message = [
-        { retcode: '010201', msg: '✅登录成功💯' },
-        { retcode: '010202', msg: '未连接网络或未连接内网' },
-        { retcode: '010203', msg: '账号/密码错误' },
-        { retcode: '010204', msg: '网络连接超时' }
-    ];
     return new Promise((resolve, reject) => {
         puppeteerBrowser.then(async browser => {
             const page = await browser.newPage();
             try {
                 await page.goto(url);
                 await page.on('dialog', value => {
-                    reject(message[2]);
+                    let message = { 'ERROR': 'the password is wrong' };
+                    reject(message);
                 });
 
                 await page.type('#txtUserID', username);
@@ -40,22 +35,22 @@ function getCourses(username, password, yearValue, semesterIndex) {
 
                 await page.goto(coursesUrl);
                 // await page.waitFor(10000);
-                let timeFrame = await page.evaluate((yearValue, semesterIndex) => {
+                await page.evaluate((yearValue, semesterIndex) => {
                     let year = document.getElementById('ucsYS_XN_Text');
                     let semester = document.getElementById('ucsYS_XQ');
-                    year.value = yearValue;
-                    semester.options[semesterIndex].selected = true;
-                    return `${year.value}  ${semester.options[semesterIndex].text}`;
+                    year.value = `${yearValue}学年`;
+                    semester.options[semesterIndex - 1].selected = true;
+                    // return `${year.value}  ${semester.options[semesterIndex].text}`;
                 }, yearValue, semesterIndex);
-                console.log(timeFrame);
+                // console.log(timeFrame);
                 await Promise.all([
                     page.click('#btnSearch'),
                     page.waitForNavigation(),
                 ]);
 
                 const coursesList = await page.evaluate(() => {
-                    const weekDay = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                    const keyList = ['courseNum', 'courseName', 'credit', 'teacher', 'classroom', 'startToEnd', 'classTime'];
+                    const weekDay = ['w0', 'w1', 'w2', 'w3', 'w4', 'w5', 'w6'];
+                    const keyList = ['id', 'name', 'credit', 'teacher', 'room', 'duration', 'days'];
 
                     let coursesList = [];
                     let temp = [...document.querySelectorAll('#DataGrid1 .DGItemStyle'), ...document.querySelectorAll('#DataGrid1 .DGAlternatingItemStyle')] || [];
@@ -66,14 +61,12 @@ function getCourses(username, password, yearValue, semesterIndex) {
                         for (i = 0; i < 6; i++) {
                             courseData[keyList[i]] = temp2[i].textContent.replace(/\s+/g, '');
                         }
-                        let classTime = [];
+                        let days = {};
                         for (i = 6; i < 13; i++) {
                             let time = temp2[i].textContent.replace(/\s+/g, '');
-                            if (time) {
-                                classTime.push(weekDay[i - 6] + time);
-                            }
+                            days[weekDay[i - 6]] = time || 'None';
                         }
-                        courseData[keyList[6]] = classTime;
+                        courseData[keyList[6]] = days;
 
                         coursesList.push(courseData);
                     });
@@ -82,12 +75,19 @@ function getCourses(username, password, yearValue, semesterIndex) {
                 resolve(coursesList);
             } catch (err) {
                 console.log(err);
-                reject(message[1]);
+                reject(err);
             } finally {
                 await page.close();
+                // await browser.close();
             }
         });
     });
 }
+
+// getCourses('', '', '2017-2018', 3).then(value => {
+//     console.log(value);
+// }).catch(value => {
+//     console.log(value);
+// });
 
 module.exports = getCourses;
